@@ -1,4 +1,5 @@
-import { Menu, MenuProps } from "antd";
+import type { MenuProps } from "antd";
+import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 
 export default function LayoutAside({

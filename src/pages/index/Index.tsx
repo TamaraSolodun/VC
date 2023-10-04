@@ -1,14 +1,12 @@
 import { Content } from "antd/es/layout/layout";
-import VideoConference from "./components/VideoConference";
 
+import VideoConference from "./components/VideoConference";
 
 export default function Index({
   colorBgContainer,
 }: {
   colorBgContainer: string;
 }) {
-
-
   return (
     <Content
       style={{
@@ -19,7 +17,7 @@ export default function Index({
         background: colorBgContainer,
       }}
     >
-      <VideoConference/>
+      <VideoConference />
     </Content>
   );
 }

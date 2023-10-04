@@ -1,0 +1,11 @@
+{
+  "css.validate": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "eslint.validate": ["javascriptreact"],
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "scss"]
+}

@@ -1,8 +1,10 @@
-import Search, { SearchProps } from "antd/es/input/Search";
+import type { SearchProps } from "antd/es/input/Search";
+import Search from "antd/es/input/Search";
 import { Header } from "antd/es/layout/layout";
 
-const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
+const onSearch: SearchProps["onSearch"] = (value, _e, info) => {
   console.log(info?.source, value);
+};
 
 export default function LayoutHeader() {
   return (

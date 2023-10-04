@@ -1,14 +1,14 @@
 // import { asideItems } from "./assets/lists";
+import { Layout, theme } from "antd";
+
 import Breadcrumbs from "./components/Breadcrumbs";
 // import LayoutAside from "./components/LayoutAside";
 import LayoutHeader from "./components/LayoutHeader";
 import Index from "./pages/index/Index";
+
 import "./styles/App.css";
 
-import { Layout, theme } from "antd";
-
 function App() {
-
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -22,7 +22,7 @@ function App() {
         /> */}
         <Layout style={{ padding: "0 24px 24px" }}>
           <Breadcrumbs />
-          <Index colorBgContainer={colorBgContainer}/>
+          <Index colorBgContainer={colorBgContainer} />
         </Layout>
       </Layout>
     </Layout>
