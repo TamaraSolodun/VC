@@ -1,45 +1,43 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, Input, Space, Tooltip } from "antd";
 import { useState } from "react";
 import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { JitsiMeeting } from "@jitsi/react-sdk";
+
 //can use ZOD
+//eslint react hooks
+//useCallback vs useMemo
+//why did you render add (memo(({prop}) => </>)
+
+const JITSI_CONFIG_OWERWRITE = {
+  startWithAudioMuted: true,
+  disableModeratorIndicator: true,
+  startScreenSharing: true,
+  enableEmailInStats: false,
+};
 
 const VideoConference: React.FC = () => {
   const [displayNamee, setDisplayNamee] = useState("");
   const [roomName, setRoomName] = useState("");
   const [onCall, setOnCall] = useState(false);
 
-  useEffect(() => {
-    console.log("onCall has changed:", onCall);
-    return () => {
-      // Cleanup logic here...
-    };
-  }, [onCall]);
+
+  //розбити component на 2 
+  //перейменувати isOnCall
 
   return (
     <>
       {onCall ? (
-        // <Jitsi
-        // roomName={roomName}
-        // displayName={displayName}
-        // containerStyle={{height: '100%', width: '100%' }}
-        // />
         <JitsiMeeting
           roomName={roomName}
-          configOverwrite={{
-            startWithAudioMuted: true,
-            disableModeratorIndicator: true,
-            startScreenSharing: true,
-            enableEmailInStats: false,
-          }}
+          //literal object
+          configOverwrite={JITSI_CONFIG_OWERWRITE}
           interfaceConfigOverwrite={{
             DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
           }}
-
           getIFrameRef={(iframeRef: { style: { height: string } }) => {
             iframeRef.style.height = "100%";
-          }}
+          }} //винести callback
         />
       ) : (
         <>
@@ -53,6 +51,9 @@ const VideoConference: React.FC = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
                 setDisplayNamee(e.target.value)
               }
+              //useCallback here
+              //components to MEMO
+
               suffix={
                 <Tooltip title="This name will be visible for other guests">
                   <InfoCircleOutlined
