@@ -1,12 +1,13 @@
 import { Content } from "antd/es/layout/layout";
+import React from "react";
 
-import VideoConference from "./components/VideoConference";
+import VideoConference from "../video-conference/VideoConference";
 
 export default function Index({
   colorBgContainer,
 }: {
   colorBgContainer: string;
-}) {
+}): React.ReactElement {
   return (
     <Content
       style={{

@@ -29,6 +29,9 @@ module.exports = {
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "no-console": "off",
         "unicorn/prefer-module": "off",
+        "prettier/prettier": ["error", {
+          "endOfLine":"auto"
+      }],
       },
     },
     {

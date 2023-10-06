@@ -1,3 +1,5 @@
+/* eslint-disable no-magic-numbers */
+
 import {
   LaptopOutlined,
   NotificationOutlined,
@@ -29,3 +31,9 @@ export const asideItems: MenuProps["items"] = [
       }),
   };
 });
+
+export const breadcrumbItemsList = [
+  { title: "Home" },
+  { title: "List" },
+  { title: "App" },
+];

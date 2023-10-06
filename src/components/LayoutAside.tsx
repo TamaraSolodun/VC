@@ -1,6 +1,7 @@
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
+import type { JSX } from "react/jsx-runtime";
 
 export default function LayoutAside({
   asideItems,
@@ -8,7 +9,7 @@ export default function LayoutAside({
 }: {
   asideItems: MenuProps["items"];
   colorBgContainer: string;
-}) {
+}): JSX.Element {
   return (
     <Sider width={200} style={{ background: colorBgContainer }}>
       <Menu

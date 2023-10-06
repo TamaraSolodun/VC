@@ -1,5 +1,6 @@
 // import { asideItems } from "./assets/lists";
 import { Layout, theme } from "antd";
+import type { JSX } from "react/jsx-runtime";
 
 import Breadcrumbs from "./components/Breadcrumbs";
 // import LayoutAside from "./components/LayoutAside";
@@ -8,7 +9,7 @@ import Index from "./pages/index/Index";
 
 import "./styles/App.css";
 
-function App() {
+export default function App(): JSX.Element {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -28,4 +29,3 @@ function App() {
     </Layout>
   );
 }
-export default App;

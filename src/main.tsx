@@ -2,12 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 
-import { store } from "./store/store.tsx";
-import App from "./App.tsx";
+import { store } from "./store/store";
+import App from "./App";
 
 import "./styles/index.css";
 
-ReactDOM.createRoot(document.querySelector("#root")!).render(
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = ReactDOM.createRoot(document.querySelector("#root")!);
+
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
