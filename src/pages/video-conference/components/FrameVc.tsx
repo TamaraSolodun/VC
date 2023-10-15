@@ -1,3 +1,4 @@
+/* eslint-disable react-perf/jsx-no-new-object-as-prop */
 import { JitsiMeeting } from "@jitsi/react-sdk";
 import { useSelector } from "react-redux";
 
@@ -8,6 +9,9 @@ const JITSI_CONFIG_OWERWRITE = {
   disableModeratorIndicator: true,
   startScreenSharing: true,
   enableEmailInStats: false,
+};
+const JITSI_INTERFACE_CONFIG_OWERWRITE = {
+  DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
 };
 
 function setHeigthOfFrame(iframeReference: { style: { height: string } }): any {
@@ -28,9 +32,7 @@ export default function FrameVc(): JSX.Element {
       }}
       // literal object
       configOverwrite={JITSI_CONFIG_OWERWRITE}
-      interfaceConfigOverwrite={{
-        DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
-      }}
+      interfaceConfigOverwrite={JITSI_INTERFACE_CONFIG_OWERWRITE}
       getIFrameRef={setHeigthOfFrame} // винести callback
     />
   );

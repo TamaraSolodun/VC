@@ -29,7 +29,7 @@ export default function App(): JSX.Element {
         /> */}
         <Layout style={{ padding: "0 24px 24px" }}>
           <Breadcrumbs />
-          <h1>create Create</h1>
+          <h1>Vite + React</h1>
           <Routes>
             <Route
               path="/"

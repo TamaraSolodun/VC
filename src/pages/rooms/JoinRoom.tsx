@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useParams } from "react-router-dom";
 
-import SubmitButton from "../../components/SubmitButton";
+import SubmitButton from "../../components/SubmitButton/SubmitButton";
 import { setRoomName } from "../../store/RoomSlice";
 import type { RootState } from "../../store/store";
 import { setUserName } from "../../store/UserSlice";
