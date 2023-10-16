@@ -7,13 +7,14 @@ import { Route, Routes } from "react-router-dom";
 
 import Breadcrumbs from "./components/Breadcrumbs";
 // import LayoutAside from "./components/LayoutAside";
-import LayoutHeader from "./components/LayoutHeader";
+import LayoutHeader from "./components/Layout/LayoutHeader";
 import CreateRoom from "./pages/rooms/CreateRoom";
 import Index from "./pages/rooms/Index";
 import JoinRoom from "./pages/rooms/JoinRoom";
 import VideoConference from "./pages/video-conference/VideoConference";
 
 import "./styles/App.css";
+import Login from "./pages/auth/Login";
 
 export default function App(): JSX.Element {
   const {
@@ -42,6 +43,7 @@ export default function App(): JSX.Element {
               path="/rooms"
               element={<Index colorBgContainer={colorBgContainer} />}
             />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </Layout>
       </Layout>
