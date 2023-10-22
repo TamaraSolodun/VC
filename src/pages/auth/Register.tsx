@@ -1,9 +1,8 @@
 import { Button, Form, Input, Space } from "antd";
 import type { ChangeEvent, FormEvent } from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import FormInput from "../../components/FormInput/form-input";
-import { addUser, getAllUsers } from "../../utils/data-utils";
+import { addUser, getAllUsers } from "../../services/user-services";
 
 interface User {
   id: number;
@@ -18,21 +17,21 @@ const defaultFormFields = {
   password: "",
 };
 
-function Register() {
+function Register(): JSX.Element {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, email, password } = formFields;
   const [users, setUsers] = useState([]);
 
-  const resetFormFields = () => {
+  const resetFormFields = (): void => {
     setFormFields(defaultFormFields);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormFields({ ...formFields, [name]: value });
+    const { type, value } = event.target;
+    setFormFields({ ...formFields, [type]: value });
   };
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (): Promise<void> => {
     try {
       const usersData = await getAllUsers("http://localhost:8000/api/users");
       console.log(usersData);
@@ -42,26 +41,28 @@ function Register() {
     }
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+      event.preventDefault();
+      try {
+        const result: User = await addUser(
+          "http://localhost:8000/api/users",
+          name,
+          email,
+          password,
+        );
+        console.log(result);
+        resetFormFields();
+      } catch {
+        alert("User Register Failed");
+      }
+    },
+    [],
+  );
 
-    try {
-      const res: User = await addUser(
-        "http://localhost:8000/api/users",
-        name,
-        email,
-        password,
-      );
-      console.log(res);
-      resetFormFields();
-    } catch {
-      alert("User Register Failed");
-    }
-  };
-
-  const reload = () => {
+  const reload = useCallback(() => {
     resetFormFields();
-  };
+  }, []);
 
   useEffect(() => {
     fetchUsers();

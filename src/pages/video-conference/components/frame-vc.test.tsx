@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable prettier/prettier */
 
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
@@ -20,7 +20,7 @@ test("renders FrameVc component with expected props", () => {
     },
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+   
   const store = mockStore(initialState);
 
   render(

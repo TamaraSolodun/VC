@@ -1,11 +1,8 @@
-// import { asideItems } from "./assets/lists";
 import { Layout, theme } from "antd";
-import React from "react";
 import type { JSX } from "react/jsx-runtime";
 import { Route, Routes } from "react-router-dom";
 
 import Breadcrumbs from "./components/Breadcrumbs";
-// import LayoutAside from "./components/LayoutAside";
 import LayoutHeader from "./components/Layout/LayoutHeader";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -16,19 +13,22 @@ import VideoConference from "./pages/video-conference/VideoConference";
 
 import "./styles/App.css";
 
+const layoutHeight = { height: "100vh" };
+const layoutPadding = { padding: "0 24px 24px" };
+
 export default function App(): JSX.Element {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout style={layoutHeight}>
       <LayoutHeader />
       <Layout>
         {/* <LayoutAside
           asideItems={asideItems}
           colorBgContainer={colorBgContainer}
         /> */}
-        <Layout style={{ padding: "0 24px 24px" }}>
+        <Layout style={layoutPadding}>
           <Breadcrumbs />
           <h1>Vite + React</h1>
           <Routes>

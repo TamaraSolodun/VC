@@ -3,6 +3,4 @@
 
 // expect.extend(matchers);
 
-// change name to kebab case n-m
-
 import "@testing-library/jest-dom/vitest";

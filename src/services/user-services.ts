@@ -1,12 +1,10 @@
-// in folder services
-// file for users & rooms ...
-
+/* eslint-disable prettier/prettier */
 export const getUser = async <T>(
   url: string,
   email: string,
   password: string,
 ): Promise<T> => {
-  const res = await fetch(url, {
+  const result = await fetch(url, {
     method: "Post",
     headers: {
       "Content-type": "application/json",
@@ -14,15 +12,15 @@ export const getUser = async <T>(
     body: JSON.stringify({ email, password }),
   });
 
-  return res.json();
+  return result.json() as Promise<T>;
 };
 
 export const getAllUsers = async <T>(url: string): Promise<T> => {
-  const res = await fetch(url, {
+  const result = await fetch(url, {
     method: "Get",
   });
 
-  return res.json(); // await -
+  return result.json() as Promise<T>; // await -
 };
 
 export const addUser = async <T>(
@@ -31,13 +29,12 @@ export const addUser = async <T>(
   email: string,
   password: string,
 ): Promise<T> => {
-  const res = await fetch(url, {
+  const result = await fetch(url, {
     method: "Post",
     headers: {
       "Content-type": "application/json",
     },
     body: JSON.stringify({ name, email, password }),
   });
-
-  return res.json();
+  return result.json() as Promise<T>;
 };

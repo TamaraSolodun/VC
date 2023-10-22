@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import type { FormInstance } from "antd";
 import jest from "jest-mock";
 import type { FieldData, FieldError } from "rc-field-form/es/interface";
-import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import type { Options } from "scroll-into-view-if-needed";
@@ -17,42 +17,35 @@ describe("SubmitButton", () => {
     getFieldValue: jest.fn((field) => {
       if (field === "username") return "john_doe";
       if (field === "roomnumber") return "222";
+      return true;
     }),
     setFieldsValue: jest.fn(),
-    scrollToField(_name: any, _options?: Options | undefined): void {
-      throw new Error("Function not implemented.");
-    },
+    scrollToField(_name: any, _options?: Options | undefined): void {},
     getFieldInstance(_name: any) {
-      throw new Error("Function not implemented.");
+      return true;
     },
-    getFieldsValue: undefined,
     getFieldError(_name: any): string[] {
-      throw new Error("Function not implemented.");
+      return [];
     },
     getFieldsError(_nameList?: any[] | undefined): FieldError[] {
-      throw new Error("Function not implemented.");
+      throw new Error("Function not implemented");
     },
     getFieldWarning(_name: any): string[] {
-      throw new Error("Function not implemented.");
+      return [];
     },
-    isFieldsTouched: undefined, // function that returns always false
     isFieldTouched(_name: any): boolean {
-      throw new Error("Function not implemented.");
+      return true;
     },
     isFieldValidating(_name: any): boolean {
-      throw new Error("Function not implemented.");
+      return true;
     },
     isFieldsValidating(_nameList?: any[] | undefined): boolean {
-      throw new Error("Function not implemented.");
+      return true;
     },
-    resetFields(_fields?: any[] | undefined): void {
-      throw new Error("Function not implemented.");
-    },
-    setFields(_fields: FieldData[]): void {
-      throw new Error("Function not implemented.");
-    },
-    setFieldValue(_name: any, _value: any): void {
-      throw new Error("Function not implemented.");
+    resetFields(_fields?: any[] | undefined): void {},
+    setFields(_fields: FieldData[]): void {},
+    setFieldValue(_name: any, _value: any): boolean {
+      return true;
     },
     validateFields: jest.fn(
       () =>
