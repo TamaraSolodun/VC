@@ -3,6 +3,7 @@ module.exports = {
   extends: [
     "airbnb",
     "airbnb-typescript",
+    "plugin:prettier/recommended",
     "plugin:editorconfig/noconflict",
     "plugin:import/errors",
     "plugin:import/warnings",
@@ -10,14 +11,13 @@ module.exports = {
     "plugin:array-func/all",
     "plugin:@typescript-eslint/all",
     "plugin:unicorn/all",
-    "plugin:prettier/recommended",
     "plugin:compat/recommended",
     "plugin:sonarjs/recommended",
     "prettier",
   ],
   overrides: [
     {
-      files: ["./*", "setup-tests.ts", "scripts/**"],
+      files: ["./*", "./src/setup-tests.ts", "scripts/**"],
       rules: {
         "import/no-extraneous-dependencies": [
           "error",
@@ -50,6 +50,8 @@ module.exports = {
         "react-perf/jsx-no-new-array-as-prop": "off",
         "react-perf/jsx-no-new-object-as-prop": "off",
         "react/jsx-no-constructed-context-values": "off",
+        //add rule disables on test files 
+        //allow unused variables
       },
     },
     {
@@ -81,7 +83,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 2020,
-    //project: ["./tsconfig.json"],
+    project: ["./tsconfig.json"],
     sourceType: "module",
   },
   plugins: [

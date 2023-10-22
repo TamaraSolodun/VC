@@ -1,16 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable no-param-reassign */
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable consistent-return */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable prettier/prettier */
-
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import type { FormInstance } from "antd";
 import jest from "jest-mock";
@@ -48,7 +35,7 @@ describe("SubmitButton", () => {
     getFieldWarning(_name: any): string[] {
       throw new Error("Function not implemented.");
     },
-    isFieldsTouched: undefined,
+    isFieldsTouched: undefined, // function that returns always false
     isFieldTouched(_name: any): boolean {
       throw new Error("Function not implemented.");
     },
@@ -70,7 +57,7 @@ describe("SubmitButton", () => {
     validateFields: jest.fn(
       () =>
         new Promise((resolve) => {
-          resolve();
+          resolve(null);
         }),
     ),
     submit(): void {
@@ -96,8 +83,6 @@ describe("SubmitButton", () => {
 
     expect(submitButton).toBeInTheDocument();
     expect(submitButton).toBeDisabled();
-
-
   });
 
   it("enables the button when form is valid", async () => {
@@ -115,18 +100,18 @@ describe("SubmitButton", () => {
     const submitButton = screen.getByRole("button", { name: /let's start!/i });
 
     expect(submittable).toBe(true);
-     // ???
+    // ???
     expect(submitButton).toBeDisabled();
   });
 
   it("calls handleisOnCall when button is clicked", async () => {
     const submittable = false;
-    const handleisOnCall = jest.fn()
+    const handleisOnCall = jest.fn();
 
     // await mockForm.validateFields({ validateOnly: true }).then(() => {
     //   submittable = true;
     // });
-    
+
     render(
       <BrowserRouter>
         <Provider store={store}>
@@ -136,11 +121,13 @@ describe("SubmitButton", () => {
     );
 
     await waitFor(() => {
-      expect(mockForm.validateFields).toHaveBeenCalledWith({ validateOnly: true });
+      expect(mockForm.validateFields).toHaveBeenCalledWith({
+        validateOnly: true,
+      });
     });
 
     const submitButton = screen.getByRole("button", { name: /let's start!/i });
-    submitButton.addEventListener('click', handleisOnCall)
+    submitButton.addEventListener("click", handleisOnCall);
 
     fireEvent.click(submitButton);
 

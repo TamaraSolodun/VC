@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+ 
 /* eslint-disable prettier/prettier */
 import { render, screen } from "@testing-library/react";
 import React from "react";
