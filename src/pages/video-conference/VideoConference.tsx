@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import type { JSX } from "react/jsx-runtime";
 import { useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";

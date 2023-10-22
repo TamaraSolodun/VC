@@ -1,14 +1,19 @@
-import { InputHTMLAttributes, FC } from "react";
+import type { InputHTMLAttributes } from "react";
 
-type FromInputProps = { label: string } & InputHTMLAttributes<HTMLInputElement>;
+type FromInputProperties = InputHTMLAttributes<HTMLInputElement> & {
+  label: string;
+};
 
-const FormInput: FC<FromInputProps> = ({ label, ...otherProps }) => {
+function FormInput({
+  label,
+  ...otherProperties
+}: FromInputProperties): JSX.Element {
   return (
     <div className="group">
-      <input {...otherProps} />
+      <input {...otherProperties} />
       {label && <div className="form-input-label">{label}</div>}
     </div>
   );
-};
+}
 
 export default FormInput;

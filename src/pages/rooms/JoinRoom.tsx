@@ -7,7 +7,6 @@ import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Space, Tooltip } from "antd";
 import type { JSX } from "react/jsx-dev-runtime";
 import { useDispatch, useSelector } from "react-redux";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useParams } from "react-router-dom";
 
 import SubmitButton from "../../components/SubmitButton/SubmitButton";
@@ -15,7 +14,7 @@ import { setRoomName } from "../../store/RoomSlice";
 import type { RootState } from "../../store/store";
 import { setUserName } from "../../store/UserSlice";
 
-// eslint-disable-next-line react/require-default-props
+ 
 function JoinRoom(): JSX.Element {
   const dispatch = useDispatch();
 
@@ -27,7 +26,7 @@ function JoinRoom(): JSX.Element {
   const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const encodedUserName = event.target.value;
     dispatch(setUserName(encodedUserName));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+     
     dispatch(setRoomName(atob(roomId ?? "")));
   };
 

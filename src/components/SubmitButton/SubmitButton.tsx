@@ -1,10 +1,8 @@
 /* eslint-disable prettier/prettier */
 import type { FormInstance } from "antd";
 import { Button, Form } from "antd";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigate } from "react-router-dom";
 
 import type { RootState } from "../../store/store";

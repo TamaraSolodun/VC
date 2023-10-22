@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { Button } from "antd";
 import { Content } from "antd/es/layout/layout";
 import React from "react";

@@ -2,19 +2,19 @@
 import { Layout, theme } from "antd";
 import React from "react";
 import type { JSX } from "react/jsx-runtime";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Route, Routes } from "react-router-dom";
 
 import Breadcrumbs from "./components/Breadcrumbs";
 // import LayoutAside from "./components/LayoutAside";
 import LayoutHeader from "./components/Layout/LayoutHeader";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 import CreateRoom from "./pages/rooms/CreateRoom";
 import Index from "./pages/rooms/Index";
 import JoinRoom from "./pages/rooms/JoinRoom";
 import VideoConference from "./pages/video-conference/VideoConference";
 
 import "./styles/App.css";
-import Login from "./pages/auth/Login";
 
 export default function App(): JSX.Element {
   const {
@@ -44,6 +44,7 @@ export default function App(): JSX.Element {
               element={<Index colorBgContainer={colorBgContainer} />}
             />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </Layout>
       </Layout>

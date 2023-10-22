@@ -8,13 +8,12 @@ import { Button, Form, Input, Space, Tooltip } from "antd";
 import type { JSX } from "react/jsx-dev-runtime";
 import { useDispatch, useSelector } from "react-redux";
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import SubmitButton from "../../components/SubmitButton/SubmitButton";
 import { setRoomName } from "../../store/RoomSlice";
 import type { RootState } from "../../store/store";
 import { setUserName } from "../../store/UserSlice";
 
-// eslint-disable-next-line react/require-default-props
+ 
 function CreateRoom(): JSX.Element {
   const dispatch = useDispatch();
 

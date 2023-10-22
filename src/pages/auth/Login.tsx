@@ -1,87 +1,91 @@
+import { Button, Form, Input, Space } from "antd";
+import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+// localstorage setItem (key, value, date)
+// getItem(key, value, validUntil(past - delete, future -return))
+// zod for check
+import { getUser } from "../../utils/data-utils";
 
-import { getData } from "../../utils/data-utils";
-import FormInput from "../../components/FormInput/form-input";
-
-type User = {
-  id: number,
-  name: string,
-  email: string,
-  password: string
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
 }
 
 const defaultFormFields = {
-  email: '',
-  password: '',
-}
+  email: "",
+  password: "",
+};
 
-const Login = () => {
-  const [user, setUser] = useState<User | null>()
-  const [formFields, setFormFields] = useState(defaultFormFields)
-  const { email, password } = formFields
+function Login() {
+  const [user, setUser] = useState<User | null>();
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const { email, password } = formFields;
 
   const resetFormFields = () => {
-    return (
-      setFormFields(defaultFormFields)
-    );
-  }
+    setFormFields(defaultFormFields);
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setFormFields({...formFields, [name]: value })
-  }
+    const { name, value } = event.target;
+    setFormFields({ ...formFields, [name]: value });
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
     try {
-      const res:User = await getData(
-        'http://localhost:8000/login', email, password
-      )
+      const res: User = await getUser(
+        "http://localhost:8000/login",
+        email,
+        password,
+      );
       setUser(res);
       resetFormFields();
-      
-    } catch (error) {
-      alert('User Sign In Failed');
+    } catch {
+      alert("User Sign In Failed");
     }
   };
 
   const reload = () => {
     setUser(null);
-    resetFormFields()
+    resetFormFields();
   };
 
   return (
-    <div className='App-header'>
-      <h1>
-        { user && `Welcome! ${user.name}`}
-      </h1>
+    <div className="App-header">
+      <h1>{user && `Welcome! ${user.name}`}</h1>
       <div className="card">
         <h2>Sign In</h2>
         <form onSubmit={handleSubmit}>
-          <FormInput
-            label="Email"
-            type="email"
-            required
-            name="email"
-            value={email}
-            onChange={handleChange}
-          />
-          <FormInput
-            label="Password"
-            type='password'
-            required
-            name='password'
-            value={password}
-            onChange={handleChange}
-          />
-          <div className="button-group">
-            <button type="submit">Sign In</button>
-            <span>
-              <button type="button" onClick={reload}>Clear</button>
-            </span>
-          </div>
+          <Form.Item name="email">
+            <Input
+              placeholder="Email"
+              type="email"
+              required
+              name="email"
+              value={email}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item name="password">
+            <Input
+              placeholder="Password"
+              type="password"
+              required
+              name="password"
+              value={password}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Space>
+              <button type="submit">Sign In</button>
+              <Button onClick={reload}>Clear</Button>
+            </Space>
+          </Form.Item>
         </form>
       </div>
     </div>
