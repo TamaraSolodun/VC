@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { Button, Form, Input, Space } from "antd";
 import type { ChangeEvent, FormEvent } from "react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { getUser } from "../../services/user-services";
 
@@ -29,17 +30,16 @@ function Login(): JSX.Element {
     setFormFields(defaultFormFields);
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
+    console.log({ ...formFields, [name]: value })
     setFormFields({ ...formFields, [name]: value });
-  };
+  },[formFields]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-
     try {
-      const result: User = await getUser(
-        "http://localhost:8000/login",
+      const result = await getUser(
         email,
         password,
       );

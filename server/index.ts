@@ -46,7 +46,7 @@ let users: User[] = [
   },
 ];
 
-app.post("/login", (req: Request, res: Response) => {
+app.post("/login", (req, res) => {
   const { email, password }: FormInputs = req.body;
 
   const user = users.find((user) => {
@@ -66,6 +66,7 @@ app.get("/api/users", (req, res) => {
 
 app.post("/api/users", (req, res) => {
   const newUser: User = req.body;
+  newUser.id = users.length + 1
   users.push(newUser);
   res.json(newUser);
 });

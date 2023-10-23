@@ -1,15 +1,12 @@
+/* eslint-disable prettier/prettier */
 import { Button, Form, Input, Space } from "antd";
 import type { ChangeEvent, FormEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-import { addUser, getAllUsers } from "../../services/user-services";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-}
+import type {User } from "../../services/user-services";
+import {addUser, getAllUsers} from "../../services/user-services";
+import type { RootState } from "../../store/store";
 
 const defaultFormFields = {
   name: "",
@@ -17,56 +14,54 @@ const defaultFormFields = {
   password: "",
 };
 
-function Register(): JSX.Element {
-  const [formFields, setFormFields] = useState(defaultFormFields);
-  const { name, email, password } = formFields;
-  const [users, setUsers] = useState([]);
 
-  const resetFormFields = (): void => {
+
+function Register() : JSX.Element{
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const usersState = useSelector((state: RootState) => state.users);
+  const [users, setUsers] = useState(usersState.users);
+  const [form] = Form.useForm();
+  const resetFormFields = () : void => {
+    form.resetFields();
     setFormFields(defaultFormFields);
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { type, value } = event.target;
-    setFormFields({ ...formFields, [type]: value });
-  };
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
+    const {value} = event.target;
+    setFormFields({ ...formFields, [event.target.name]: value });
+  },[formFields]);
 
   const fetchUsers = async (): Promise<void> => {
     try {
-      const usersData = await getAllUsers("http://localhost:8000/api/users");
-      console.log(usersData);
-      setUsers(usersData); // add zod
+      const usersData = await getAllUsers();
+      setUsers(usersData); 
     } catch (error) {
       console.error("Error fetching users:", error); // add dispatch setError
     }
   };
 
-  const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>): Promise<void> => {
-      event.preventDefault();
-      try {
-        const result: User = await addUser(
-          "http://localhost:8000/api/users",
-          name,
-          email,
-          password,
-        );
-        console.log(result);
-        resetFormFields();
-      } catch {
-        alert("User Register Failed");
-      }
-    },
-    [],
-  );
+  const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>): void => {
+    try {
+      const registeredUser: User = await addUser(
+        formFields.name,
+        formFields.email,
+        formFields.password,
+      );
+      resetFormFields();
+      setUsers([...users, registeredUser]);
+      // dispatch()
+    } catch {
+      alert("User Register Failed");
+    }
+  }, [formFields]);
 
   const reload = useCallback(() => {
     resetFormFields();
-  }, []);
+  },[]);
 
   useEffect(() => {
-    fetchUsers();
-  }, [users]);
+      fetchUsers();
+  }, []);
 
   return (
     <div className="App-header">
@@ -81,14 +76,14 @@ function Register(): JSX.Element {
       <div className="card">
         <h2>Sign In</h2>
         <Space direction="horizontal">
-          <form onSubmit={handleSubmit}>
+          <Form onFinish={handleSubmit} form={form}>
             <Form.Item name="name">
               <Input
                 placeholder="Name"
                 type="text"
                 required
                 name="name"
-                value={name}
+                value={formFields.name}
                 onChange={handleChange}
               />
             </Form.Item>
@@ -99,7 +94,7 @@ function Register(): JSX.Element {
                 type="email"
                 required
                 name="email"
-                value={email}
+                value={formFields.email}
                 onChange={handleChange}
               />
             </Form.Item>
@@ -110,7 +105,7 @@ function Register(): JSX.Element {
                 type="password"
                 required
                 name="password"
-                value={password}
+                value={formFields.password}
                 onChange={handleChange}
               />
             </Form.Item>
@@ -120,7 +115,7 @@ function Register(): JSX.Element {
                 <Button onClick={reload}>Clear</Button>
               </Space>
             </Form.Item>
-          </form>
+          </Form>
         </Space>
       </div>
     </div>

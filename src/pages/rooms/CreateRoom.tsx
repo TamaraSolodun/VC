@@ -28,7 +28,7 @@ function CreateRoom(): JSX.Element {
 
   const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const encodedUserName = event.target.value;
-    dispatch(setUserName(encodedUserName));
+    dispatch(setUserName(encodedUserName)); // onSubmit
   };
 
   const [form] = Form.useForm();
