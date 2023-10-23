@@ -11,13 +11,15 @@ import FrameVc from "./components/FrameVc";
 // useCallback vs useMemo
 // why did you render add (memo(({prop}) => </>)
 
+const conferenceStyle = { height: "100%" };
+
 function VideoConference(): JSX.Element {
   const isOnCall = useSelector((state: RootState) => state.user.isOnCall);
   const userName = useSelector((state: RootState) => state.user.userName);
   const { roomId } = useParams<{ roomId: string | undefined }>();
 
   return (
-    <div style={{ height: "100%" }}>
+    <div style={conferenceStyle}>
       {isOnCall ? (
         <FrameVc />
       ) : userName ? (

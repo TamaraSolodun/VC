@@ -20,31 +20,31 @@ describe("SubmitButton", () => {
       return true;
     }),
     setFieldsValue: jest.fn(),
-    scrollToField(_name: any, _options?: Options | undefined): void {},
-    getFieldInstance(_name: any) {
+    scrollToField(_name: string, _options?: Options | undefined): void {},
+    getFieldInstance(_name: string) {
       return true;
     },
-    getFieldError(_name: any): string[] {
+    getFieldError(_name: string): string[] {
       return [];
     },
-    getFieldsError(_nameList?: any[] | undefined): FieldError[] {
+    getFieldsError(_nameList?: string[] | undefined): FieldError[] {
       throw new Error("Function not implemented");
     },
-    getFieldWarning(_name: any): string[] {
+    getFieldWarning(_name: string): string[] {
       return [];
     },
-    isFieldTouched(_name: any): boolean {
+    isFieldTouched(_name: string): boolean {
       return true;
     },
-    isFieldValidating(_name: any): boolean {
+    isFieldValidating(_name: string): boolean {
       return true;
     },
-    isFieldsValidating(_nameList?: any[] | undefined): boolean {
+    isFieldsValidating(_nameList?: string[] | undefined): boolean {
       return true;
     },
-    resetFields(_fields?: any[] | undefined): void {},
+    resetFields(_fields?: string[] | undefined): void {},
     setFields(_fields: FieldData[]): void {},
-    setFieldValue(_name: any, _value: any): boolean {
+    setFieldValue(_name: string, _value: string): boolean {
       return true;
     },
     validateFields: jest.fn(
@@ -56,6 +56,8 @@ describe("SubmitButton", () => {
     submit(): void {
       throw new Error("Function not implemented.");
     },
+    getFieldsValue: undefined,
+    isFieldsTouched: undefined,
   };
 
   it("renders button correctly", async () => {
