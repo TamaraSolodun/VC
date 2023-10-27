@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Button, Form, Input, Space } from "antd";
-import type { ChangeEvent, FormEvent } from "react";
+import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -31,7 +31,7 @@ function Register() : JSX.Element{
     setFormFields({ ...formFields, [event.target.name]: value });
   },[formFields]);
 
-  const fetchUsers = async (): Promise<void> => {
+  const fetchUsers = async (): Promise<void> => { // simple promise .then add to useEffect
     try {
       const usersData = await getAllUsers();
       setUsers(usersData); 
@@ -40,7 +40,7 @@ function Register() : JSX.Element{
     }
   };
 
-  const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = useCallback(async (): Promise<void> => {
     try {
       const registeredUser: User = await addUser(
         formFields.name,
@@ -67,8 +67,8 @@ function Register() : JSX.Element{
     <div className="App-header">
       <h1>User List</h1>
       <ul>
-        {users.map((user, index) => (
-          <li key={index}>
+        {users.map((user) => (
+          <li key={user.id}>
             {user.name} - {user.email}
           </li>
         ))}

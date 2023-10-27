@@ -23,7 +23,7 @@ export const UsersSlice = createSlice({
     addUser: (state, action: PayloadAction<User>) => {
       state.users.push(action.payload);
     },
-    removeUser: (state, action: PayloadAction<string>) => {
+    removeUser: (state, action: PayloadAction<number>) => {
       state.users = state.users.filter((user) => user.id !== action.payload);
     },
   },

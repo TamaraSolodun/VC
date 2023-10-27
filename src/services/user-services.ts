@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
+import '@total-typescript/ts-reset/fetch';
 import { z } from "zod";
 
-/* eslint-disable prettier/prettier */
-const API_URL = 'http://localhost:8000';
+const API_URL = "http://localhost:8000";
+
 
 const userSchema = z.object({
   id: z.number(),
@@ -9,18 +11,14 @@ const userSchema = z.object({
   email: z.string(),
   password: z.string(),
 });
+const allUserResponseSchema = z.array(userSchema);
 
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-}
+export type User = z.infer<typeof userSchema>;
 
 export const getUser = async (
   email: string,
   password: string,
-) => {
+): Promise<User> => {
   const result = await fetch(`${API_URL}/login`, {
     method: "Post",
     headers: {
@@ -29,19 +27,20 @@ export const getUser = async (
     body: JSON.stringify({ email, password }),
   });
 
-  return result.json();
+  return (await result.json()) as User;
 };
 
-export const getAllUsers = async () : Promise<User[]> => {
+
+export const getAllUsers = async (): Promise<User[]> => {
   const result = await fetch(`${API_URL}/api/users`, {
     method: "GET",
   });
-  const usersJson: User[] = await result.json() as User[];
-  const validatedUsers : User[] = usersJson.map((user : User) => userSchema.parse(user));
-  return validatedUsers; 
+  const usersJson = (await result.json());
+  const validatedUsers: User[] = allUserResponseSchema.parse(usersJson);
+  return validatedUsers;
 };
 
-export const addUser = async(
+export const addUser = async (
   name: string,
   email: string,
   password: string,
@@ -53,5 +52,5 @@ export const addUser = async(
     },
     body: JSON.stringify({ name, email, password }),
   });
-  return await result.json() as User;
+  return (await result.json()) as User;
 };

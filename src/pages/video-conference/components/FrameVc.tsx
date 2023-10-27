@@ -14,9 +14,11 @@ const JITSI_INTERFACE_CONFIG_OWERWRITE = {
   DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
 };
 
-function setHeigthOfFrame(iframeReference: { style: { height: string } }): any {
+function setHeigthOfFrame(iframeReference: {
+  style: { height: string };
+}): void {
+  // html for iframe props
   iframeReference.style.height = "100%";
-  return iframeReference;
 }
 
 export default function FrameVc(): JSX.Element {
@@ -33,7 +35,7 @@ export default function FrameVc(): JSX.Element {
       // literal object
       configOverwrite={JITSI_CONFIG_OWERWRITE}
       interfaceConfigOverwrite={JITSI_INTERFACE_CONFIG_OWERWRITE}
-      getIFrameRef={setHeigthOfFrame} // винести callback
+      getIFrameRef={setHeigthOfFrame}
     />
   );
 }

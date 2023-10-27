@@ -12,13 +12,13 @@ const loadUserState = (): UserState | undefined => {
     if (serializedState === null) {
       return undefined;
     }
-    return JSON.parse(serializedState);
+    return JSON.parse(serializedState) as UserState;
   } catch {
     return undefined;
   }
 };
 
-const saveUserState = (state: UserState) => {
+const saveUserState = (state: UserState): void => {
   const serializedState = JSON.stringify(state);
   localStorage.setItem("userState", serializedState);
 };

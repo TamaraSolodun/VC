@@ -83,7 +83,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 2020,
-    project: ["./tsconfig.json"],
+    project: ["./tsconfig.json", "./server/tsconfig.json"],
     sourceType: "module",
   },
   plugins: [
@@ -183,7 +183,13 @@ module.exports = {
     ],
     "@typescript-eslint/prefer-for-of": "off",
     "@typescript-eslint/promise-function-async": "off",
-    "@typescript-eslint/prefer-readonly-parameter-types": "off"
+    "@typescript-eslint/prefer-readonly-parameter-types": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ]
   },
   settings: {
     "import/parsers": {
@@ -195,7 +201,7 @@ module.exports = {
       },
       typescript: {
         alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`,
-        project: ".",
+        project: [".", "./server"],
       },
     },
   },

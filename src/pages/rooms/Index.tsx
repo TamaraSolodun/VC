@@ -8,7 +8,7 @@ const contentStyle = {
   margin: 0,
   height: "100%",
   minHeight: "500px",
-};
+}; // can use Usememo
 
 export default function Index({
   colorBgContainer,

@@ -1,6 +1,7 @@
-import dotenv from "dotenv";
-import express, { Express, Request, Response } from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+import type { Express, Request, Response } from "express";
+import express from "express";
 
 dotenv.config();
 
@@ -9,11 +10,13 @@ const app: Express = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (_req: Request, res: Response) => {
-  res.send("Typescript Server 2!");
+app.get("/", (_request: Request, response: Response) => {
+  response.send("Typescript Server 2!");
 });
 
-const port = process.env.PORT || 8000;
+const DEFAULT_PORT = 8000;
+
+const port = process.env.PORT ?? DEFAULT_PORT;
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
@@ -31,7 +34,7 @@ interface User {
   password: string;
 }
 
-let users: User[] = [
+const users: User[] = [
   {
     id: 1,
     name: "Tamara",
@@ -46,27 +49,27 @@ let users: User[] = [
   },
 ];
 
-app.post("/login", (req, res) => {
-  const { email, password }: FormInputs = req.body;
+app.post("/login", (request, response) => {
+  const { email, password }: FormInputs = request.body;
 
   const user = users.find((user) => {
     return user.email === email && user.password === password;
   });
 
   if (!user) {
-    return res.status(404).send("User Not Found!");
+    return response.status(404).send("User Not Found!");
   }
 
-  return res.status(200).json(user);
+  return response.status(200).json(user);
 });
 
-app.get("/api/users", (req, res) => {
-  res.json(users);
+app.get("/api/users", (request, response) => {
+  response.json(users);
 });
 
-app.post("/api/users", (req, res) => {
-  const newUser: User = req.body;
-  newUser.id = users.length + 1
+app.post("/api/users", (request, res) => {
+  const newUser: User = request.body;
+  newUser.id = users.length + 1;
   users.push(newUser);
   res.json(newUser);
 });
