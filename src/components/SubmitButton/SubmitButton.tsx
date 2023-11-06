@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import type { RootState } from "../../store/store";
-import { setIsOnCall } from "../../store/UserSlice";
+import { setIsOnCall } from "../../store/user/UserSlice";
 
 export default function SubmitButton({
   form,

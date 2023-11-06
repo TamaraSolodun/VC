@@ -30,7 +30,6 @@ export default function App(): JSX.Element {
         /> */}
         <Layout style={layoutPadding}>
           <Breadcrumbs />
-          <h1>Vite + React</h1>
           <Routes>
             <Route
               path="/"

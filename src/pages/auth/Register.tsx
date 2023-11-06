@@ -1,12 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Button, Form, Input, Space } from "antd";
+import { Alert, Button, Form, Input, Space } from "antd";
 import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import type {User } from "../../services/user-services";
-import {addUser, getAllUsers} from "../../services/user-services";
 import type { RootState } from "../../store/store";
+import { addUser, fetchUsers } from "../../store/users/actions";
 
 const defaultFormFields = {
   name: "",
@@ -14,42 +13,30 @@ const defaultFormFields = {
   password: "",
 };
 
-
-
-function Register() : JSX.Element{
+function Register(): JSX.Element {
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const usersState = useSelector((state: RootState) => state.users);
-  const [users, setUsers] = useState(usersState.users);
   const [form] = Form.useForm();
-  const resetFormFields = () : void => {
+
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector(
+    (state: RootState) => state.users,
+  );
+  const resetFormFields = (): void => {
     form.resetFields();
-    setFormFields(defaultFormFields);
   };
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
-    const {value} = event.target;
-    setFormFields({ ...formFields, [event.target.name]: value });
-  },[formFields]);
-
-  const fetchUsers = async (): Promise<void> => { // simple promise .then add to useEffect
-    try {
-      const usersData = await getAllUsers();
-      setUsers(usersData); 
-    } catch (error) {
-      console.error("Error fetching users:", error); // add dispatch setError
-    }
-  };
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>): void => {
+      const { value } = event.target;
+      setFormFields({ ...formFields, [event.target.name]: value });
+    },
+    [formFields],
+  );
 
   const handleSubmit = useCallback(async (): Promise<void> => {
     try {
-      const registeredUser: User = await addUser(
-        formFields.name,
-        formFields.email,
-        formFields.password,
-      );
+      dispatch(addUser(formFields.name, formFields.email, formFields.password));
       resetFormFields();
-      setUsers([...users, registeredUser]);
-      // dispatch()
     } catch {
       alert("User Register Failed");
     }
@@ -57,24 +44,33 @@ function Register() : JSX.Element{
 
   const reload = useCallback(() => {
     resetFormFields();
-  },[]);
+  }, []);
 
   useEffect(() => {
-      fetchUsers();
-  }, []);
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
   return (
     <div className="App-header">
-      <h1>User List</h1>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            {user.name} - {user.email}
-          </li>
-        ))}
-      </ul>
+      <h1>Users List</h1>
+      {loading && <h2>Loading...</h2>}
+
+      {data && (
+        <ul>
+          {data.map((user) => (
+            <li key={user.id}>
+              {user.name} - {user.email}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {error && (
+        <Alert message="Error" description={error} type="error" showIcon />
+      )}
+
       <div className="card">
-        <h2>Sign In</h2>
+        <h2>Sign Up</h2>
         <Space direction="horizontal">
           <Form onFinish={handleSubmit} form={form}>
             <Form.Item name="name">

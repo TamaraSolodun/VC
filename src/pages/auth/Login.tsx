@@ -2,19 +2,16 @@
 import { Button, Form, Input, Space } from "antd";
 import type { ChangeEvent, FormEvent } from "react";
 import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { getUser } from "../../services/user-services";
+import type { RootState } from "../../store/store";
+import { getUser } from "../../store/users/actions";
+import { useNavigate } from "react-router-dom";
 
 // localstorage setItem (key, value, date)
 // getItem(key, value, validUntil(past - delete, future -return))
 // zod for check
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-}
 
 const defaultFormFields = {
   email: "",
@@ -22,42 +19,43 @@ const defaultFormFields = {
 };
 
 function Login(): JSX.Element {
-  const [user, setUser] = useState<User | null>();
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { email, password } = formFields;
+  const user = useSelector((state: RootState) => state.users)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const resetFormFields = (): void => {
     setFormFields(defaultFormFields);
   };
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = event.target;
-    console.log({ ...formFields, [name]: value })
-    setFormFields({ ...formFields, [name]: value });
-  },[formFields]);
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>): void => {
+      const { name, value } = event.target;
+      console.log({ ...formFields, [name]: value });
+      setFormFields({ ...formFields, [name]: value });
+    },
+    [formFields],
+  );
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
+  const handleSubmit = useCallback(async (): Promise<void> => {
     try {
-      const result = await getUser(
-        email,
-        password,
-      );
-      setUser(result);
+      dispatch(getUser(formFields.email, formFields.password));
       resetFormFields();
+      navigate(`/rooms`);
+      
     } catch {
       alert("User Sign In Failed");
     }
-  };
+  }, [formFields]);
 
   const reload = (): void => {
-    setUser(null);
     resetFormFields();
   };
 
   return (
     <div className="App-header">
-      <h1>{user && `Welcome! ${user.name}`}</h1>
+      <h1>{user && `Welcome! ${user.data}`}</h1>
       <div className="card">
         <h2>Sign In</h2>
         <form onSubmit={handleSubmit}>
@@ -67,7 +65,7 @@ function Login(): JSX.Element {
               type="email"
               required
               name="email"
-              value={email}
+              value={formFields.email}
               onChange={handleChange}
             />
           </Form.Item>
@@ -77,7 +75,7 @@ function Login(): JSX.Element {
               type="password"
               required
               name="password"
-              value={password}
+              value={formFields.password}
               onChange={handleChange}
             />
           </Form.Item>

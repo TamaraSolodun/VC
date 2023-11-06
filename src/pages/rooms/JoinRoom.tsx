@@ -10,9 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import SubmitButton from "../../components/SubmitButton/SubmitButton";
-import { setRoomName } from "../../store/RoomSlice";
+import { setRoomName } from "../../store/room/RoomSlice";
 import type { RootState } from "../../store/store";
-import { setUserName } from "../../store/UserSlice";
+import { setUserName } from "../../store/user/UserSlice";
 
  
 function JoinRoom(): JSX.Element {
