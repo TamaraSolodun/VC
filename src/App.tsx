@@ -4,8 +4,8 @@ import { Route, Routes } from "react-router-dom";
 
 import Breadcrumbs from "./components/Breadcrumbs";
 import LayoutHeader from "./components/Layout/LayoutHeader";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login/Login";
+import Register from "./pages/auth/Register/Register";
 import CreateRoom from "./pages/rooms/CreateRoom";
 import Index from "./pages/rooms/Index";
 import JoinRoom from "./pages/rooms/JoinRoom";

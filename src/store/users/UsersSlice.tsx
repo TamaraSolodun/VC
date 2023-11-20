@@ -1,75 +1,53 @@
-import type { UserActionTypes } from "./actions";
-import {
-  ADD_USER_FAILURE,
-  ADD_USER_REQUEST,
-  ADD_USER_SUCCESS,
-  GET_USERS_FAILURE,
-  GET_USERS_REQUEST,
-  GET_USERS_SUCCESS,
-  GET_USER_FAILURE,
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
-} from "./actions";
+import { createSlice } from "@reduxjs/toolkit";
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-}
-interface UsersState {
-  data: User[];
+import type { RootState } from "../store";
+
+import { addUser, fetchUsers } from "../../services/user-services";
+import { User } from "../../assets/variables";
+
+export interface UserState {
   loading: boolean;
-  error: string | null;
+  users: Array<User>;
+  error: string | undefined;
 }
-
-const initialState: UsersState = {
-  data: [],
+const initialState: UserState = {
   loading: false,
-  error: null,
+  users: [],
+  error: undefined,
 };
 
-const usersReducer = (
-  state = initialState,
-  action: UserActionTypes,
-): UsersState => {
-  switch (action.type) {
-    case GET_USERS_REQUEST: {
-      return { ...state, loading: true, error: null };
-    }
-    case GET_USERS_SUCCESS: {
-      return { ...state, loading: false, data: action.data, error: null };
-    }
-    case GET_USERS_FAILURE: {
-      return { ...state, loading: false, error: action.error };
-    }
-    case GET_USER_REQUEST: {
-      return { ...state, loading: true, error: null };
-    }
-    case GET_USER_SUCCESS: {
-      return { ...state, loading: false, data: action.data, error: null };
-    }
-    case GET_USER_FAILURE: {
-      return { ...state, loading: false, error: action.error };
-    }
-    case ADD_USER_REQUEST: {
-      return { ...state, loading: true, error: null };
-    }
-    case ADD_USER_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        data: [...state.data, action.data],
-        error: null,
-      };
-    }
-    case ADD_USER_FAILURE: {
-      return { ...state, loading: false, error: action.error };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+export const userSlice = createSlice({
+  name: "users",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchUsers.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    });
+    builder.addCase(fetchUsers.rejected, (state, action) => {
+      state.loading = false;
+      state.users = [];
+      state.error = action.error.message;
+    });
+    builder.addCase(addUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(addUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.users = [...state.users, action.payload];
+    });
+    builder.addCase(addUser.rejected, (state, action) => {
+      state.loading = false;
+      state.users = [];
+      state.error = action.error.message;
+    });
+  },
+});
 
-export default usersReducer;
+export const {} = userSlice.actions;
+export const usersSelector = (state: RootState) => state.usersReducer;
+export default userSlice.reducer;

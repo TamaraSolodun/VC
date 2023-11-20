@@ -1,15 +1,15 @@
-import { applyMiddleware, createStore } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import type { ThunkMiddleware } from "redux-thunk";
-import thunk from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
 
-import rootReducer from "./reducer";
+import usersReducer from "./users/UsersSlice";
+import userReducer from "./user/UserSlice";
+import roomReducer from "./room/RoomSlice";
 
-const middleware: [ThunkMiddleware] = [thunk];
-
-export const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(...middleware)),
-);
-export type RootState = ReturnType<typeof rootReducer>;
+export const store = configureStore({
+  reducer: {
+    usersReducer,
+    userReducer,
+    roomReducer,
+  },
+});
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

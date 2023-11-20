@@ -60,7 +60,14 @@ app.post("/login", (request, response) => {
     return response.status(404).send("User Not Found!");
   }
 
-  return response.status(200).json(user);
+  const responseData = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    password: user.password,
+  };
+
+  return response.status(200).json(responseData);
 });
 
 app.get("/api/users", (request, response) => {
@@ -69,7 +76,7 @@ app.get("/api/users", (request, response) => {
 
 app.post("/api/users", (request, res) => {
   const addedUser: User = request.body;
-  addedUser.id = users.length + 1;
+  // addedUser.id = users.length + 1;
   users.push(addedUser);
   res.json(addedUser);
 });

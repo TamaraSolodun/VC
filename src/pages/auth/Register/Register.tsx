@@ -1,15 +1,15 @@
 /* eslint-disable prettier/prettier */
 import { Button, Form, Input, Space } from "antd";
 
-import ErrorAlert from "../../components/ErrorAlert";
+import ErrorAlert from "../../../components/ErrorAlert";
+import UserList from "../UsersList";
 
-import UseRegister from "./useRegister";
-import UserList from "./UsersList";
+import UseRegister from "./UseRegister";
 
 function Register(): JSX.Element {
   const {
+    users,
     loading,
-    data,
     error,
     formFields,
     setFormFields,
@@ -19,13 +19,11 @@ function Register(): JSX.Element {
   } = UseRegister();
   return (
     <div className="App-header">
-      <h1>Users List</h1>
       {loading && <h2>Loading...</h2>}
 
-      {data && <UserList users={data} />}
+      <UserList users={users} />
 
       {error && <ErrorAlert error={error} />}
-
       <div className="card">
         <h2>Sign Up</h2>
         <Space direction="horizontal">

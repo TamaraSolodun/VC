@@ -1,15 +1,18 @@
+import { z } from "zod";
+
 export const defaultFormFields = {
   name: "",
   email: "",
   password: "",
 };
 
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+export const userSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string(),
+  password: z.string(),
+});
 
-export interface UsersListProperties {
-  users: User[];
-}
+export const userResponseSchema = z.array(userSchema);
+
+export type User = z.infer<typeof userSchema>;

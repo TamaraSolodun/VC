@@ -2,10 +2,10 @@
 import type { FormInstance } from "antd";
 import { Button, Form } from "antd";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import type { RootState } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { roomSelector } from "../../store/room/RoomSlice";
 import { setIsOnCall } from "../../store/user/UserSlice";
 
 export default function SubmitButton({
@@ -16,13 +16,13 @@ export default function SubmitButton({
   const [submittable, setSubmittable] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const values = Form.useWatch([], form);
-  const dispatch = useDispatch();
-  const roomName = useSelector((state: RootState) => state.room.roomName);
+  const dispatch = useAppDispatch();
+  const room = useAppSelector(roomSelector);
   const navigate = useNavigate();
 
   const handleisOnCall = (): void => {
     dispatch(setIsOnCall(true));
-    navigate(`/rooms/${btoa(roomName)}`);
+    navigate(`/rooms/${btoa(room.roomName)}`);
   };
 
   useEffect(() => {

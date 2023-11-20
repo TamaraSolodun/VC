@@ -1,6 +1,8 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
+import type { RootState } from "../store";
+
 export interface RoomState {
   roomName: string;
 }
@@ -20,5 +22,6 @@ export const RoomSlice = createSlice({
 });
 
 export const { setRoomName } = RoomSlice.actions;
+export const roomSelector = (state: RootState) => state.roomReducer;
 
 export default RoomSlice.reducer;

@@ -6,27 +6,27 @@
 import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Space, Tooltip } from "antd";
 import type { JSX } from "react/jsx-dev-runtime";
-import { useDispatch, useSelector } from "react-redux";
 
 import SubmitButton from "../../components/SubmitButton/SubmitButton";
-import { setRoomName } from "../../store/room/RoomSlice";
-import type { RootState } from "../../store/store";
-import { setUserName } from "../../store/user/UserSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { roomSelector, setRoomName } from "../../store/room/RoomSlice";
+import { setUserName, userSelector } from "../../store/user/UserSlice";
 
- 
 function CreateRoom(): JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const room = useAppSelector(roomSelector);
+  const user = useAppSelector(userSelector);
 
-  const roomName = useSelector((state: RootState) => state.room.roomName);
-  const userName = useSelector((state: RootState) => state.user.userName);
-
-
-  const handleRoomNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleRoomNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
     const encodedRoomName = event.target.value;
     dispatch(setRoomName(encodedRoomName));
   };
 
-  const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleUserNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
     const encodedUserName = event.target.value;
     dispatch(setUserName(encodedUserName)); // onSubmit
   };
@@ -47,7 +47,7 @@ function CreateRoom(): JSX.Element {
               placeholder="Enter your username"
               prefix={<UserOutlined className="site-form-item-icon" />}
               allowClear
-              value={userName}
+              value={user.userName}
               onChange={handleUserNameChange}
               // useCallback here
               // components to MEMO
@@ -66,7 +66,7 @@ function CreateRoom(): JSX.Element {
             <Input
               placeholder="Input room number"
               allowClear
-              value={roomName}
+              value={room.roomName}
               onChange={handleRoomNameChange}
             />
           </Form.Item>
