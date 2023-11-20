@@ -28,7 +28,7 @@ interface GetUserRequestAction {
 
 interface GetUserSuccessAction {
   type: typeof GET_USER_SUCCESS;
-  data: User;
+  data: User; //payload
 }
 
 interface GetUserFailureAction {
@@ -63,7 +63,7 @@ interface AddUserFailureAction {
   type: typeof ADD_USER_FAILURE;
   error: string;
 }
-
+//UsersAction
 export type UserActionTypes =
   | AddUserFailureAction
   | AddUserRequestAction
@@ -83,6 +83,7 @@ export const fetchUsers = () => {
     dispatch({ type: GET_USERS_REQUEST });
 
     try {
+      //move to services
       const response = await fetch("http://localhost:8000/api/users", {
         method: "GET",
       });
@@ -92,8 +93,9 @@ export const fetchUsers = () => {
 
       const users = await response.json();
       const validatedUsers: User[] =  userResponseSchema.parse(users);
+      //move to services
 
-      dispatch({ type: GET_USERS_SUCCESS, data: validatedUsers });
+      dispatch({ type: GET_USERS_SUCCESS, data: validatedUsers });//return or await 
     } catch (error) {
       dispatch({ type: GET_USERS_FAILURE, error: error.message });
     }

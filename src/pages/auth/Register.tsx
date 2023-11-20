@@ -1,73 +1,30 @@
 /* eslint-disable prettier/prettier */
-import { Alert, Button, Form, Input, Space } from "antd";
-import type { ChangeEvent } from "react";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Button, Form, Input, Space } from "antd";
 
-import type { RootState } from "../../store/store";
-import { addUser, fetchUsers } from "../../store/users/actions";
+import ErrorAlert from "../../components/ErrorAlert";
 
-const defaultFormFields = {
-  name: "",
-  email: "",
-  password: "",
-};
+import UseRegister from "./useRegister";
+import UserList from "./UsersList";
 
 function Register(): JSX.Element {
-  const [formFields, setFormFields] = useState(defaultFormFields);
-  const [form] = Form.useForm();
-
-  const dispatch = useDispatch();
-  const { data, loading, error } = useSelector(
-    (state: RootState) => state.users,
-  );
-  const resetFormFields = (): void => {
-    form.resetFields();
-  };
-
-  const handleChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>): void => {
-      const { value } = event.target;
-      setFormFields({ ...formFields, [event.target.name]: value });
-    },
-    [formFields],
-  );
-
-  const handleSubmit = useCallback(async (): Promise<void> => {
-    try {
-      dispatch(addUser(formFields.name, formFields.email, formFields.password));
-      resetFormFields();
-    } catch {
-      alert("User Register Failed");
-    }
-  }, [formFields]);
-
-  const reload = useCallback(() => {
-    resetFormFields();
-  }, []);
-
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
-
+  const {
+    loading,
+    data,
+    error,
+    formFields,
+    setFormFields,
+    reload,
+    handleSubmit,
+    form,
+  } = UseRegister();
   return (
     <div className="App-header">
       <h1>Users List</h1>
       {loading && <h2>Loading...</h2>}
 
-      {data && (
-        <ul>
-          {data.map((user) => (
-            <li key={user.id}>
-              {user.name} - {user.email}
-            </li>
-          ))}
-        </ul>
-      )}
+      {data && <UserList users={data} />}
 
-      {error && (
-        <Alert message="Error" description={error} type="error" showIcon />
-      )}
+      {error && <ErrorAlert error={error} />}
 
       <div className="card">
         <h2>Sign Up</h2>
@@ -80,7 +37,9 @@ function Register(): JSX.Element {
                 required
                 name="name"
                 value={formFields.name}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormFields({ ...formFields, name: e.target.value });
+                }}
               />
             </Form.Item>
 
@@ -91,7 +50,9 @@ function Register(): JSX.Element {
                 required
                 name="email"
                 value={formFields.email}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormFields({ ...formFields, email: e.target.value });
+                }}
               />
             </Form.Item>
 
@@ -102,7 +63,9 @@ function Register(): JSX.Element {
                 required
                 name="password"
                 value={formFields.password}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormFields({ ...formFields, password: e.target.value });
+                }}
               />
             </Form.Item>
             <Form.Item>

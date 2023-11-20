@@ -52,8 +52,8 @@ const users: User[] = [
 app.post("/login", (request, response) => {
   const { email, password }: FormInputs = request.body;
 
-  const user = users.find((user) => {
-    return user.email === email && user.password === password;
+  const user = users.find((foundUser) => {
+    return foundUser.email === email && foundUser.password === password;
   });
 
   if (!user) {
@@ -68,8 +68,8 @@ app.get("/api/users", (request, response) => {
 });
 
 app.post("/api/users", (request, res) => {
-  const newUser: User = request.body;
-  newUser.id = users.length + 1;
-  users.push(newUser);
-  res.json(newUser);
+  const addedUser: User = request.body;
+  addedUser.id = users.length + 1;
+  users.push(addedUser);
+  res.json(addedUser);
 });
